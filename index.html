@@ -649,6 +649,62 @@
                 playPauseBtn.innerText = "▶";
             }
         }
+
+        // --- CÓDIGO CORREGIDO DE LA CUENTA REGRESIVA ---
+        function actualizarCuentaRegresiva() {
+            // Fecha objetivo: 28 de Agosto de 2026 a las 19:00:00
+            const fechaBoda = new Date("Aug 28, 2026 19:00:00").getTime();
+            const ahora = new Date().getTime();
+            const diferencia = fechaBoda - ahora;
+
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+
+            if (diferencia < 0) {
+                if (daysEl) daysEl.innerText = "00";
+                if (hoursEl) hoursEl.innerText = "00";
+                if (minutesEl) minutesEl.innerText = "00";
+                if (secondsEl) secondsEl.innerText = "00";
+                return;
+            }
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            if (daysEl) daysEl.innerText = dias < 10 ? "0" + dias : dias;
+            if (hoursEl) hoursEl.innerText = horas < 10 ? "0" + horas : horas;
+            if (minutesEl) minutesEl.innerText = minutos < 10 ? "0" + minutos : minutos;
+            if (secondsEl) secondsEl.innerText = segundos < 10 ? "0" + segundos : segundos;
+        }
+
+        // Ejecutar inmediatamente y luego cada segundo
+        actualizarCuentaRegresiva();
+        setInterval(actualizarCuentaRegresiva, 1000);
+
+        // Funciones de Modales y RSVP
+        function openCalendarModal() {
+            document.getElementById('calendarModalOverlay').classList.add('show');
+        }
+        function closeCalendarModal() {
+            document.getElementById('calendarModalOverlay').classList.remove('show');
+        }
+        function openRsvpModal() {
+            document.getElementById('rsvpModalOverlay').classList.add('show');
+        }
+        function closeRsvpModal() {
+            document.getElementById('rsvpModalOverlay').classList.remove('show');
+        }
+        function submitRSVP(respuesta) {
+            closeRsvpModal();
+            if(respuesta === 'Sí') {
+                document.getElementById('btn-principal-rsvp').style.display = 'none';
+                document.getElementById('msg-pase-exito').style.display = 'block';
+            }
+        }
     </script>
 </body>
 </html>
